@@ -4,7 +4,7 @@
 
 This was originally a private group project hosted on GitLab, but I got the permission to clone the repo here. Some of the code might be outdated since I've cloned it before we had our last sprint (currently on the 4th release, 11th sprint).
 
-### The group
+## The group
 
 - Mateusz Bryl
 - Hubert Grzesiak
@@ -12,7 +12,7 @@ This was originally a private group project hosted on GitLab, but I got the perm
 - Marcin Kleczewski 👑
 - Szymon Kolański
 
-### The functionality
+## The functionality
 
 - Role based functionality:
   - Guest
@@ -38,7 +38,7 @@ This was originally a private group project hosted on GitLab, but I got the perm
 - PostgreSQL database in the cloud via Supabase
 - responsive ui with the shadcn library
 
-### My input
+## My input
 
 - leading the team through most sprints
   - allocating tasks to specific team members
@@ -63,7 +63,7 @@ This was originally a private group project hosted on GitLab, but I got the perm
   - ToS page
 - adjusting the middleware for various role access
 
-### Gallery
+## Gallery
 
 Since the project isn't currently deployed, I added some screenshots to showcase the functionality. I still have the project setup locally so I could always showcase it myself if there'd be a need for that.
 
