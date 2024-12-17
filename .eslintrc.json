@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "next/core-web-vitals",
+    "plugin:storybook/recommended",
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:tailwindcss/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["simple-import-sort", "import", "tailwindcss", "prettier"],
+  "rules": {
+    "no-console": "warn",
+    "prettier/prettier": 0,
+    "react/prop-types": "off",
+    "tailwindcss/no-custom-classname": "off",
+    "simple-import-sort/imports": [
+      "warn",
+      {
+        "groups": [["^react$"], ["^\\u0000"], ["use"], ["^@/"]]
+      }
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".ts", ".tsx"]
+      }
+    },
+    "typescript": {}
+  },
+  "overrides": [
+    {
+      "files": ["src/**/*.stories.tsx"],
+      "rules": {
+        "react-hooks/rules-of-hooks": "warn"
+      }
+    }
+  ]
+}

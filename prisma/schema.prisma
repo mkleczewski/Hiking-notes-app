@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                            String                 @id @default(cuid())
+  firstName                     String?                @db.VarChar(196)
+  lastName                      String?                @db.VarChar(196)
+  name                          String?                @db.VarChar(196)
+  email                         String?                @unique @db.VarChar(300)
+  emailVerified                 DateTime?
+  image                         String?
+  password                      String?
+  createdAt                     DateTime?              @default(now()) @db.Date
+  lastLoginAt                   DateTime?              @db.Date
+  deletedAt                     DateTime?              @db.Date
+  invalidFrom                   DateTime?              @db.Date
+  invalidEnd                    DateTime?              @db.Date
+  isTwoFactorEnabled            Boolean                @default(false)
+  sendForAchievement            Boolean                @default(false)
+  unusedPoints                  Int                    @default(0)
+  accounts                      Account[]
+  subregionPrivileges           SubregionPrivilege[]
+  Trip_Trip_leaderPresentToUser Trip[]                 @relation("Trip_leaderPresentToUser")
+  trips                         Trip[]
+  verifiedTrips                 Trip[]                 @relation("TripVerifiedBy")
+  twoFactorConfirmation         TwoFactorConfirmation?
+  achievementsAsReferat         UserAchievement[]      @relation("AchievementsReferat")
+  achievementsAsUser            UserAchievement[]      @relation("AchievementsUser")
+  userRoles                     UserRole[]
+}
+
+model Badge {
+  id               String            @id @default(cuid())
+  title            String
+  pointsRequired   Int
+  trips            Trip[]
+  userAchievements UserAchievement[]
+}
+
+model Role {
+  id        String     @id @default(cuid())
+  name      String     @unique @db.VarChar(128)
+  userRoles UserRole[]
+}
+
+model UserRole {
+  id     String @id @default(cuid())
+  userId String
+  roleId String
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, roleId], name: "unique_user_role")
+  @@index([userId], map: "idx_userId")
+  @@index([roleId], map: "idx_roleId")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String   @db.VarChar(255)
+  token   String   @unique @db.VarChar(255)
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String   @db.VarChar(255)
+  token   String   @unique @db.VarChar(255)
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorToken {
+  id      String   @id @default(cuid())
+  email   String   @db.VarChar(255)
+  token   String   @unique @db.VarChar(255)
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model TwoFactorConfirmation {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Place {
+  id               String     @id @default(dbgenerated("gen_random_uuid()"))
+  subregionId      String?    @db.VarChar(255)
+  deletedAt        DateTime?  @db.Date
+  name             String     @unique @db.VarChar(255)
+  subregion        Subregion? @relation(fields: [subregionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  endPlaceRoutes   Route[]    @relation("EndPlaceRoutes")
+  startPlaceRoutes Route[]    @relation("StartPlaceRoutes")
+}
+
+model Subregion {
+  id         String               @id @default(dbgenerated("gen_random_uuid()"))
+  name       String               @unique @db.VarChar(255)
+  regionId   String               @db.VarChar(255)
+  deletedAt  DateTime?            @db.Date
+  code       String?              @unique @db.VarChar(255)
+  places     Place[]
+  region     Region               @relation(fields: [regionId], references: [id], onDelete: NoAction, map: "FK_Subregion_Region")
+  privileges SubregionPrivilege[]
+}
+
+model Region {
+  id         String      @id @default(cuid())
+  name       String      @unique @db.VarChar(255)
+  deletedAt  DateTime?   @db.Date
+  subregions Subregion[]
+}
+
+model Route {
+  id                 String    @id @default(cuid())
+  createdAt          DateTime  @db.Date
+  deletedAt          DateTime? @db.Date
+  startPlaceId       String    @db.VarChar(255)
+  endPlaceId         String    @db.VarChar(255)
+  startPointDistance Int       @db.SmallInt
+  endPointDistance   Int?      @db.SmallInt
+  endPlace           Place     @relation("EndPlaceRoutes", fields: [endPlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  startPlace         Place     @relation("StartPlaceRoutes", fields: [startPlaceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  trips              Trip[]
+}
+
+model Trip {
+  id                            String   @id @default(cuid())
+  userId                        String
+  routeId                       String?
+  verifiedById                  String?
+  date                          String
+  images                        String[]
+  comment                       String?
+  backtracked                   Boolean?
+  leaderPresent                 String?
+  belongsToBadgeId              String?
+  belongsToBadge                Badge?   @relation(fields: [belongsToBadgeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  User_Trip_leaderPresentToUser User?    @relation("Trip_leaderPresentToUser", fields: [leaderPresent], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  route                         Route?   @relation(fields: [routeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user                          User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  verifiedBy                    User?    @relation("TripVerifiedBy", fields: [verifiedById], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model SubregionPrivilege {
+  id          String    @id @default(cuid())
+  userId      String
+  subregionId String    @db.VarChar(255)
+  subregion   Subregion @relation(fields: [subregionId], references: [id], onDelete: NoAction)
+  user        User      @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model UserAchievement {
+  id          String    @id @default(cuid())
+  userId      String?
+  collectedAt DateTime? @db.Date
+  referatId   String?
+  badgeId     String?
+  badge       Badge?    @relation(fields: [badgeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  referat     User?     @relation("AchievementsReferat", fields: [referatId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        User?     @relation("AchievementsUser", fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}

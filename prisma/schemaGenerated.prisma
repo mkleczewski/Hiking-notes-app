@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Achievements {
+  GUUID                String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  Name                 String                  @db.VarChar(255)
+  RequirePoints        Int                     @db.SmallInt
+  RequireInvalidPoints Int                     @db.SmallInt
+  TimeGate             Unsupported("interval")
+  DeletedAt            DateTime?               @db.Date
+  User_To_Achievament  User_To_Achievament[]
+}
+
+model Place {
+  PlaceName                          String     @id @db.VarChar(255)
+  Fk_Subregion                       String?    @db.VarChar(255)
+  DeletedAt                          DateTime?  @db.Date
+  Subregion                          Subregion? @relation(fields: [Fk_Subregion], references: [SubregionName], onDelete: NoAction, onUpdate: NoAction)
+  Routes_Routes_FK_EndPlaceToPlace   Routes[]   @relation("Routes_FK_EndPlaceToPlace")
+  Routes_Routes_FK_StartPlaceToPlace Routes[]   @relation("Routes_FK_StartPlaceToPlace")
+}
+
+model Przodownik_Subregion_Privileges {
+  GUUID             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  FK_User           String    @db.Uuid
+  FK_Subregion      String    @db.VarChar(255)
+  StartPrivileges   DateTime  @db.Date
+  TimeOutPrivileges DateTime? @db.Date
+  Subregion         Subregion @relation(fields: [FK_Subregion], references: [SubregionName], onDelete: NoAction)
+  User              User      @relation(fields: [FK_User], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Regions {
+  RegionName String      @id(map: "PK_RegionName") @db.VarChar(255)
+  DeletedAt  DateTime?   @db.Date
+  Subregion  Subregion[]
+}
+
+model Roles {
+  RoleName       String           @id @db.VarChar(128)
+  Rules_To_Users Rules_To_Users[]
+}
+
+model Routes {
+  GUUID                             String    @id(map: "PK_GUUID") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  CreatedAt                         DateTime  @db.Date
+  DeletedAt                         DateTime? @db.Date
+  FK_StartPlace                     String    @db.VarChar(255)
+  FK_EndPlace                       String    @db.VarChar(255)
+  StartPlace_To_Enplace_Point       Int       @db.SmallInt
+  EndPlace_To_StartPlace            Int?      @db.SmallInt
+  Place_Routes_FK_EndPlaceToPlace   Place     @relation("Routes_FK_EndPlaceToPlace", fields: [FK_EndPlace], references: [PlaceName], onDelete: NoAction, onUpdate: NoAction)
+  Place_Routes_FK_StartPlaceToPlace Place     @relation("Routes_FK_StartPlaceToPlace", fields: [FK_StartPlace], references: [PlaceName], onDelete: NoAction, onUpdate: NoAction)
+  Trips                             Trips[]
+}
+
+model Rules_To_Users {
+  Guuid   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  FK_Role String @db.VarChar(128)
+  FK_User String @db.Uuid
+  Roles   Roles  @relation(fields: [FK_Role], references: [RoleName], onDelete: NoAction, onUpdate: NoAction)
+  User    User   @relation(fields: [FK_User], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Subregion {
+  SubregionName                   String                            @id(map: "PK_Subregion") @db.VarChar(255)
+  FK_Region                       String                            @db.VarChar(255)
+  DeletedAt                       DateTime?                         @db.Date
+  Place                           Place[]
+  Przodownik_Subregion_Privileges Przodownik_Subregion_Privileges[]
+  Regions                         Regions                           @relation(fields: [FK_Region], references: [RegionName], onDelete: NoAction, map: "FK_Subregion_Region")
+}
+
+model Trips {
+  GUUID                 String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  FK_User               String    @db.Uuid
+  TripTime              DateTime  @db.Timetz(6)
+  FK_Route              String?   @db.Uuid
+  FK_Verify_By          String?   @db.Uuid
+  Verify_Date           DateTime? @db.Date
+  Is_End_To_Start_Place Boolean   @default(false)
+  Custom_Start_Place    String?   @db.VarChar(255)
+  Custom_End_Place      String?   @db.VarChar(255)
+  Points                Int?      @db.SmallInt
+  Routes                Routes?   @relation(fields: [FK_Route], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+  User                  User      @relation(fields: [FK_User], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model User {
+  GUUID                                                    String                            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  Name                                                     String                            @db.VarChar(196)
+  LastName                                                 String                            @db.VarChar(196)
+  EMail                                                    String                            @db.VarChar(300)
+  CreatedAt                                                DateTime                          @db.Date
+  LastLoginAt                                              DateTime?                         @db.Date
+  DeletedAt                                                DateTime?                         @db.Date
+  InvalidFrom                                              DateTime?                         @db.Date
+  InvalidEnd                                               DateTime?                         @db.Date
+  PasswordHash                                             String
+  Przodownik_Subregion_Privileges                          Przodownik_Subregion_Privileges[]
+  Rules_To_Users                                           Rules_To_Users[]
+  Trips                                                    Trips[]
+  User_To_Achievament_User_To_Achievament_FK_ReferatToUser User_To_Achievament[]             @relation("User_To_Achievament_FK_ReferatToUser")
+  User_To_Achievament_User_To_Achievament_FK_UserToUser    User_To_Achievament[]             @relation("User_To_Achievament_FK_UserToUser")
+}
+
+model User_To_Achievament {
+  GUUID                                     String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  FK_User                                   String?       @db.Uuid
+  FK_Achivement                             String?       @db.Uuid
+  ColectedAt                                DateTime?     @db.Date
+  FK_Referat                                String?       @db.Uuid
+  Achievements                              Achievements? @relation(fields: [FK_Achivement], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+  User_User_To_Achievament_FK_ReferatToUser User?         @relation("User_To_Achievament_FK_ReferatToUser", fields: [FK_Referat], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+  User_User_To_Achievament_FK_UserToUser    User?         @relation("User_To_Achievament_FK_UserToUser", fields: [FK_User], references: [GUUID], onDelete: NoAction, onUpdate: NoAction)
+}
