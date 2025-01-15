@@ -36,7 +36,7 @@ export default async function Page({
     return (
       <div className="mx-auto w-full max-w-[1000px]">
         <h1 className="text-2xl">Book</h1>
-        <p>Error loading book: {totalPagesResult.error}</p>
+        <p>Error podczas ładowania: {totalPagesResult.error}</p>
       </div>
     );
   }

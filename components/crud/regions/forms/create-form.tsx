@@ -52,18 +52,18 @@ const RegionForm = ({ type, regionDetails }: Props) => {
           id: parseregionDetails.id,
           name: values.name,
         });
-        toast.success('Region updated successfully');
+        toast.success('Region stworzono pomyślnie');
 
         router.push(`/crud/regions`);
       } else {
         await createRegion({
           name: values.name,
         });
-        toast.success('Region created successfully');
+        toast.success('Region zmieniono pomyślnie');
         router.push('/crud/regions');
       }
     } catch (error) {
-      toast.error('Failed to create region');
+      toast.error('Nie utworzono regionu');
     } finally {
       setIsSubmitting(false);
     }

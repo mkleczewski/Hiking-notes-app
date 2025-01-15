@@ -74,7 +74,7 @@ function BasicForm({ places }: any) {
             name="commentToRoute"
             render={({ field }) => (
               <FormItem className="hidden">
-                <FormLabel>Comment to route</FormLabel>
+                <FormLabel>Komentarz do ścieżki</FormLabel>
                 <FormControl>
                   <Input placeholder="null" {...field} />
                 </FormControl>

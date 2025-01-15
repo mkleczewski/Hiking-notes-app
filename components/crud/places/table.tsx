@@ -75,7 +75,7 @@ export default function PlacesTable({ places }: PlacesTableProps) {
           <TableColumn key="subregion" allowsSorting={true}>
             Subregion
           </TableColumn>
-          <TableColumn>Actions</TableColumn>
+          <TableColumn>Akcje</TableColumn>
         </TableHeader>
         <TableBody items={sortedItems}>
           {(item) => (

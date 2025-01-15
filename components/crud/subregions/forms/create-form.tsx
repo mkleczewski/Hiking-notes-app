@@ -71,7 +71,7 @@ const SubregionForm = ({ type, subregionDetails, regions }: Props) => {
           name: values.name,
           code: values.code,
         });
-        toast.success('Subregion updated successfully');
+        toast.success('Podregion zmieniono pomyślnie');
 
         router.push(`/crud/subregions`);
       } else {
@@ -80,7 +80,7 @@ const SubregionForm = ({ type, subregionDetails, regions }: Props) => {
           regionId: values.regionId,
           code: values.code,
         });
-        toast.success('Subregion created successfully');
+        toast.success('Podregion stworzono pomyślnie');
         router.push('/crud/subregions');
       }
     } catch (error) {

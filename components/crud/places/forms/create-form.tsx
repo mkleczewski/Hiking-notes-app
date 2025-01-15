@@ -66,7 +66,7 @@ const PlaceForm = ({ type, placeDetails, subregions }: Props) => {
 					subregionId: values.subregionId,
           name: values.name,
         });
-        toast.success('Place updated successfully');
+        toast.success('Miejsce zmieniono pomyślnie!');
 
         router.push(`/crud/places`);
       } else {
@@ -74,11 +74,11 @@ const PlaceForm = ({ type, placeDetails, subregions }: Props) => {
           name: values.name,
           subregionId: values.subregionId,
         });
-        toast.success('Place created successfully');
+        toast.success('Miejsce stworzono pomyślnie');
         router.push('/crud/places');
       }
     } catch (error) {
-      toast.error('Failed to create place');
+      toast.error('Błąd w tworzeniu');
     } finally {
       setIsSubmitting(false);
     }

@@ -73,15 +73,15 @@ export function DeleteSubregion({ id }: { id: string }) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you absolutely sure you want to delete this subregion?
+              Jesteś pewien, że chcesz usunąć ten podregion?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
+              Tego nie można cofnąć. Zostanie to usunięte na zawsze.
               subregion.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>Wróć</AlertDialogCancel>
             <AlertDialogAction asChild>
               <button
                 onClick={handleDelete}
@@ -152,11 +152,10 @@ export function DeleteRegion({ id }: { id: string }) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you absolutely sure you want to delete this region?
+            Jesteś pewien, że chcesz usunąć ten region?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete this
-              region.
+            Tego nie można cofnąć. Zostanie to usunięte na zawsze.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

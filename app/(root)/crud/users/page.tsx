@@ -32,7 +32,7 @@ export default async function Page({
     return (
       <div className="mx-auto w-full max-w-[1000px]">
         <h1 className="text-2xl">Użytkownicy</h1>
-        <p>Error loading users: {totalPagesResult.error}</p>
+        <p>Error podczas ładowania użytkowników: {totalPagesResult.error}</p>
       </div>
     );
   }

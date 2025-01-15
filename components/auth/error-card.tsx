@@ -7,10 +7,10 @@ export const ErrorCard = () => {
   return (
     <Card className="w-[400px] shadow-md">
       <CardHeader>
-        <Header label="Oops! Something went wrong!" />
+        <Header label="Oops! Coś poszło nie tak!" />
       </CardHeader>
       <CardFooter>
-        <BackButton label="Back to login" href="/auth/login" />
+        <BackButton label="Wróć do logowania" href="/auth/login" />
       </CardFooter>
     </Card>
   );

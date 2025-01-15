@@ -75,7 +75,7 @@ const RouteForm = ({ type, routeDetails, places }: Props) => {
           startPointDistance: values.startPointDistance,
           endPointDistance: values.endPointDistance,
         });
-        toast.success('Route updated successfully');
+        toast.success('Ścieżka zmieniona pomyślnie');
 
         router.push(`/crud/routes`);
       } else {
@@ -85,11 +85,11 @@ const RouteForm = ({ type, routeDetails, places }: Props) => {
           startPointDistance: values.startPointDistance,
           endPointDistance: values.endPointDistance,
         });
-        toast.success('Route created successfully');
+        toast.success('Ścieżka dodana pomyślnie');
         router.push('/crud/routes');
       }
     } catch (error) {
-      toast.error('Failed to create route');
+      toast.error('Błąd podczas tworzenia ścieżki');
     } finally {
       setIsSubmitting(false);
     }

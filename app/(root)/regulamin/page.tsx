@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function page() {
   return (
     <div className="flex w-full flex-col justify-between gap-4 px-6 sm:flex-col sm:items-center lg:px-40">
-      <h1 className="h1-bold w-full text-2xl text-black">Regulamin Serwisu</h1>
+      <h1 className="h1-bold w-full text-2xl">Regulamin Serwisu</h1>
       <Accordion
         className="text-dark300_light700 background-regulamin z-10  w-full rounded px-4 py-2"
         type="single"
@@ -34,15 +34,14 @@ export default function page() {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>
-            Jakich odznak nie oferuje serwis?
-          </AccordionTrigger>
+          <AccordionTrigger>Jakich odznak nie oferuje serwis?</AccordionTrigger>
           <AccordionContent className="flex flex-col gap-2">
-            Serwis obecnie nie oferuje możliwości zdobywania odznak "W góry", dużych oraz specjalnych.
+            Serwis obecnie nie oferuje możliwości zdobywania odznak "W góry",
+            dużych oraz specjalnych.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <h1 className="h1-bold w-full text-2xl text-black">Regulamin GOT PTTK</h1>
+      <h1 className="h1-bold w-full text-2xl">Regulamin GOT PTTK</h1>
       <Regulamin />
     </div>
   );

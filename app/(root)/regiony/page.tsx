@@ -24,9 +24,9 @@ const page = async () => {
   const regions = await getAllRegions();
 
   return (
-    <div>
+    <div className="">
       <Tabs defaultValue="account" className="">
-        <TabsList className="">
+        <TabsList className="mx-auto w-full">
           {regions.map((region) => (
             <TabsTrigger key={region.name} value={region.name}>
               {region.name}
@@ -40,7 +40,6 @@ const page = async () => {
         ))}
       </Tabs>
       {/* {regions[3].name} */}
-      
     </div>
   );
 };

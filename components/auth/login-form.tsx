@@ -41,7 +41,7 @@ export const LoginForm = () => {
 
   const urlError =
     searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'Email is already in use with different provider!'
+      ? 'Email już istnieje!'
       : '';
 
   const [showTwoFactor, setShowTwoFactor] = useState(false);

@@ -33,7 +33,7 @@ export const Mapa: FC<MapaProps> = async ({ className, name }) => {
     switch (name) {
       case 'Beskidy Zachodnie':
         return <BeskidyZachodnieMapAndArea />;
-      case 'Beskkidy Wschodnie':
+      case 'Beskidy Wschodnie':
         return <BeskidyWschodnieMapAndArea />;
       // case 'Góry Świętokrzyskie':
       //   return <GorySwietokrzyskieMapAndArea />;
@@ -58,7 +58,7 @@ export const Mapa: FC<MapaProps> = async ({ className, name }) => {
       )}
     >
       <SubRegionContent />
-      <div className="min-w-[330px] rounded-2xl border-l-[10px] border-t-[10px] border-l-gray-300 border-t-gray-200/70 bg-white p-6 shadow-2xl">
+      {/* <div className="min-w-[330px] rounded-2xl border-l-[10px] border-t-[10px] border-l-gray-300 border-t-gray-200/70 bg-white p-6 shadow-2xl">
         <h2 className="pb-2 text-2xl font-bold"> 🏔️ Podregiony</h2>
         <div className="h-2 w-40 rounded-full bg-green-500 " />
         <div className="h-2 w-40 translate-x-2 rounded-full bg-black" />
@@ -73,7 +73,7 @@ export const Mapa: FC<MapaProps> = async ({ className, name }) => {
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="relative ">
+    <main className="relative min-h-[100vh]">
       <Navbar />
       <div className="flex">
         {/* <LeftSideBar /> */}
@@ -27,7 +27,9 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             className="fixed -z-10 h-screen"
             style={{ backgroundAttachment: 'fixed' }}
           />
-          <div className=" overflow-x-hidden">{children}</div>
+          <div className="overflow-x-hidden text-black dark:text-white">
+            {children}
+          </div>
         </section>
       </div>
       <Toaster />
